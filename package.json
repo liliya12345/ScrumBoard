@@ -8,11 +8,13 @@
     "build1": "parcel build ./src/index.html --dist-dir docs --public-url ./",
     "clean1": "del-cli ./.parcel-cache ./docs ./dist",
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build2": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "build": "parcel build src/index.html",
+    "deploy": "gh-pages -d dist",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy1": "gh-pages -d build"
   },
   "keywords": [],
   "author": "",

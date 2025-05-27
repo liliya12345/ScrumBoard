@@ -1,0 +1,202 @@
+/* Добавьте в начало вашего CSS */
+html, body {
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  background: url(https://images.unsplash.com/photo-1650348982662-832fcfbb0d02) center center no-repeat  fixed;
+  background-size: cover;
+}
+
+#root {
+  height: 100vh;
+}
+
+.container-main {
+  height: calc(100vh - 56px); /* Высота навбара обычно 56px */
+  /*overflow: hidden;*/
+}
+
+.container-fluid.theme {
+  height: 100vh;
+  padding-bottom: 0;
+}
+
+.row {
+  height: 100vh;
+  margin-bottom: 0;
+}
+
+.app {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+
+}
+.f-filter{
+  background-color: white;
+}
+
+
+header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.container {
+  display: flex;
+  gap: 30px;
+}
+
+.section {
+  flex: 1;
+  background: #f5f5f5;
+  padding: 20px;
+  border-radius: 8px;
+
+}
+.dropdown-toggle::after {
+  display: none !important;
+}
+
+
+form {
+  margin-bottom: 30px;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+form div {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+input, select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+button {
+  background: #4285f4;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #3367d6;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  background: white;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+ .kanban-column {
+   min-height: 80vh;
+   background-color: #dcdbdd;
+   opacity:80%;
+   border-radius: 5px;
+   padding: 10px;
+   margin: 0 5px;
+ }
+.kanban-card {
+  margin-bottom: 10px;
+  cursor: move;
+  transition: all 0.3s;
+}
+.kanban-card:hover {
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+.column-title {
+  font-weight: bold;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+  position: relative;
+  font-size: 16px;
+  color: #131313;
+  font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.add-card-btn {
+  width: 100%;
+  margin-top: 10px;
+}
+/*.theme{*/
+/*  background: url(https://images.unsplash.com/photo-1650348982662-832fcfbb0d02) center center no-repeat  fixed;*/
+/*  background-size: cover;*/
+/*}*/
+.container-main {
+
+
+}
+.index__settings-icon___30c6E {
+  cursor: pointer;
+  color: #6c757d;
+  padding: 5px;
+  border-radius: 3px;
+  z-index: 10;
+  position: relative;
+}
+
+.index__settings-icon___30c6E:hover {
+  background-color: #f0f0f0;
+  color: #495057;
+}
+.dropdown-item-kanban {
+  display: block;
+  padding: 3px 20px;
+  clear: both;
+  font-weight: 400;
+  line-height: 1.42857143;
+  color: #333;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.dropdown-item-kanban:hover {
+  background-color: #f5f5f5;
+}
+
+.dropdown-container {
+  position: relative;
+  display: inline-block;
+}
+.dropdown-menu-kanban {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  z-index: 1000;
+  min-width: 160px;
+  padding: 5px 0;
+  margin: 2px 0 0;
+  font-size: 14px;
+  text-align: left;
+  list-style: none;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0,0,0,.15);
+  border-radius: 4px;
+  box-shadow: 0 6px 12px rgba(0,0,0,.175);
+}
+.dpr{
+  background-color: #131313;
+}
