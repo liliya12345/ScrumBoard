@@ -3,10 +3,16 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "parcel ./src/index.html",
-    "build": "parcel build ./src/index.html --dist-dir docs --public-url ./",
-    "clean": "del-cli ./.parcel-cache ./docs ./dist"
+    "test1": "echo \"Error: no test specified\" && exit 1",
+    "dev1": "parcel ./src/index.html",
+    "build1": "parcel build ./src/index.html --dist-dir docs --public-url ./",
+    "clean1": "del-cli ./.parcel-cache ./docs ./dist",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "keywords": [],
   "author": "",
@@ -22,9 +28,11 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.7.2",
     "bootstrap": "^5.3.6",
+    "gh-pages": "^6.3.0",
     "react": "^19.1.0",
     "react-bootstrap": "^2.10.10",
     "react-dom": "^19.1.0",
-    "react-router-dom": "^7.6.1"
+    "react-router-dom": "^7.6.1",
+    "web-vitals": "^2.1.4"
   }
 }
