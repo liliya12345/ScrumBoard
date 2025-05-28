@@ -33,17 +33,14 @@ Now that you have NodeJS and NPM installed, You should now be able to install Re
 Now that you have ReactJS installed, you can create a new react project directory by running:
 
 >npx create-react-app my-react-project
-
-Once you're inside a terminal window inside of this react project, you can finally run the following command to start a development server on "localhost:3000":
-
 >npm start
 
 ### Instalera Bootstrap
 >npm install react-bootstrap bootstrap
-### installera Axios i ditt projekt 
+### installera Aos i ditt projekt 
 
 >npm install aos
 
-### installera Axos i ditt projekt 
+### installera Testify i ditt projekt 
 
-> npm install aos --save
+> npm install testify --save
