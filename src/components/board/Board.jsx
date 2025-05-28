@@ -17,17 +17,18 @@ import {filterByCategoryArray, handleFilterByOwnerAndCategory} from '../../utils
 import {filterByOwner} from "../../utils/filterByOwner";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
+
 function Board(props) {
-    // Инициализация AOS анимаций
+    // Initiera AOS-animationer
     useEffect(() => {
         AOS.init({
             duration: 2000,
             easing: "ease-out-cubic",
-            once: true // Анимации проигрываются только один раз
+            once: true // Animationer spelas bara en gång
         });
     }, []);
 
-    // Состояния для колонок и фильтров
+    // Tillstånd för kolumner och filter
     const [originalColumns, setOriginalColumns] = useState({
         planned: {title: 'New', cards: []},
         inProgress: {title: 'In process', cards: []},
@@ -49,13 +50,13 @@ function Board(props) {
     let [ownerUpdate, setOwnerUpdate] = useState(null);
     const [filtredTask, setFiltredTask] = useState({...originalColumns});
 
-    // Состояния модальных окон
+    // Tillstånd för modala fönster
     const [showTaskModal, setShowTaskModal] = useState(false);
     const [showOwnerModal, setShowOwnerModal] = useState(false);
     const [showMemberModal, setShowMemberModal] = useState(false);
     const [showAddOwnerModal, setShowAddOwnerModal] = useState(false);
 
-    // Состояния для форм
+    // Tillstånd för formulär
     const [newTask, setNewTask] = useState({
         title: '',
         description: '',
@@ -72,11 +73,11 @@ function Board(props) {
         category: ''
     });
 
-    // Drag and Drop состояние
+    // Drag and Drop-tillstånd
     const [draggedCard, setDraggedCard] = useState(null);
     const [draggedColumn, setDraggedColumn] = useState(null);
 
-    // Загрузка данных
+    // Ladda data
     const loadData = async () => {
         try {
             await Promise.all([
@@ -84,9 +85,8 @@ function Board(props) {
                 loadMembersFromFirebase()
             ]);
         } catch (error) {
-            console.error("Failed to load data:", error);
-
-            toast("Failed to load data. Please try again later.");
+            console.error("Kunde inte ladda data:", error);
+            toast("Kunde inte ladda data. Försök igen senare.");
         }
     };
 
@@ -110,11 +110,11 @@ function Board(props) {
                 setOriginalMembers(membersArray);
                 setMembers(membersArray);
             } else {
-                console.log("No members data available");
+                console.log("Ingen medlemsdata tillgänglig");
             }
         } catch (error) {
-            console.error("Error loading members:", error);
-            toast("Failed to load team members.");
+            console.error("Fel vid laddning av medlemmar:", error);
+            toast("Kunde inte ladda teammedlemmar.");
         }
     };
 
@@ -138,12 +138,12 @@ function Board(props) {
             setOriginalColumns(updatedColumns);
             setColumns(updatedColumns);
         } catch (error) {
-            console.error("Error loading tasks:", error);
-            toast("Failed to load tasks.");
+            console.error("Fel vid laddning av uppgifter:", error);
+            toast("Kunde inte ladda uppgifter.");
         }
     };
 
-    // Обработчики фильтрации
+    // Filterhanterare
     const handleFilterByCategory = (category) => {
         try {
             const newFilter = filterByCategoryArray(
@@ -155,8 +155,8 @@ function Board(props) {
             setCurrentFilter(prev => ({...prev, ...newFilter}));
             localStorage.setItem('category', category);
         } catch (error) {
-            console.error("Filter error:", error);
-            toast.error("Failed to apply filter.");
+            console.error("Filterfel:", error);
+            toast.error("Kunde inte applicera filter.");
         }
     };
 
@@ -171,24 +171,24 @@ function Board(props) {
             setCurrentFilter(prev => ({...prev, ...newFilter}));
             localStorage.setItem('owner', owner);
         } catch (error) {
-            console.error("Filter error:", error);
-            toast.error("Failed to apply filter.");
+            console.error("Filterfel:", error);
+            toast.error("Kunde inte applicera filter.");
         }
     };
 
     const handleFilterByOwnerAndCategory = (category = null, owner = null) => {
         try {
-            // Update active filters state
+            // Uppdatera aktiva filter
             const newFilters = {
                 category: category !== null ? category : activeFilters.category,
                 owner: owner !== null ? owner : activeFilters.owner
             };
             setActiveFilters(newFilters);
 
-            // Apply both filters sequentially
+            // Applicera båda filtren sekventiellt
             let filteredData = {...originalColumns};
 
-            // First filter by category if specified
+            // Först filtrera efter kategori om angiven
             if (newFilters.category && newFilters.category !== 'all') {
                 filteredData = {
                     planned: {
@@ -206,7 +206,7 @@ function Board(props) {
                 };
             }
 
-            // Then filter by owner if specified
+            // Sedan filtrera efter ägare om angiven
             if (newFilters.owner && newFilters.owner !== 'all') {
                 filteredData = {
                     planned: {
@@ -224,7 +224,7 @@ function Board(props) {
                 };
             }
 
-            // If both filters are 'all' or null, reset to original
+            // Om båda filter är 'all' eller null, återställ till original
             if (
                 (newFilters.category === 'all' || newFilters.category === null) &&
                 (newFilters.owner === 'all' || newFilters.owner === null)
@@ -235,16 +235,16 @@ function Board(props) {
             setColumns(filteredData);
             setCurrentFilter(newFilters);
 
-            // Update localStorage if needed
+            // Uppdatera localStorage om nödvändigt
             if (category !== null) localStorage.setItem('category', category);
             if (owner !== null) localStorage.setItem('owner', owner);
         } catch (error) {
-            console.error("Complex filter error:", error);
-            toast.error("Failed to apply complex filter.");
+            console.error("Komplext filterfel:", error);
+            toast.error("Kunde inte applicera komplext filter.");
         }
     };
 
-    // Drag and Drop обработчики
+    // Drag and Drop-hanterare
     const handleDragStart = (cardId, columnId) => {
         setDraggedCard(cardId);
         setDraggedColumn(columnId);
@@ -269,8 +269,8 @@ function Board(props) {
 
             if (snapshot.exists()) {
                 const tasksData = snapshot.val();
-                // Находим нужную задачу (например, по ID)
-                const taskId = draggedCard; // Замените на реальный ID задачи
+                // Hitta rätt uppgift (t.ex. via ID)
+                const taskId = draggedCard; // Ersätt med verkligt uppgifts-ID
                 const taskToUpdate = tasksData[taskId];
                 ownerUpdate = {...taskToUpdate}
                 console.log(taskToUpdate);
@@ -288,12 +288,12 @@ function Board(props) {
                         });
 
                     }
-                    // Обновляем задачу
+                    // Uppdatera uppgiften
                     await update(ref(db, `tasks/${taskId}`), {
                         status: status
                     });
 
-                    console.log("Task updated successfully");
+                    console.log("Uppgift uppdaterad");
                 }
 
             }
@@ -306,7 +306,7 @@ function Board(props) {
             newColumns[targetColumnId].cards.push(card);
 
             setColumns(newColumns);
-            // Здесь можно добавить сохранение в Firebase
+            // Här kan du lägga till sparande till Firebase
         }
 
         setDraggedCard(null);
@@ -314,7 +314,7 @@ function Board(props) {
         await loadTasksFromFirebase();
     };
 
-    // Обработчики модальных окон
+    // Hanterare för modala fönster
     const handleHideTaskModal = () => {
         setNewTask({
             title: '',
@@ -335,7 +335,7 @@ function Board(props) {
     const handleHideMemberModal = () => setShowMemberModal(false);
     const handleHideAddOwnerModal = () => setShowAddOwnerModal(false);
 
-    // Обработчики форм
+    // Formulärhanterare
     const handleInputChange = (e) => {
         const {name, value} = e.target;
         setNewTask(prev => ({...prev, [name]: value}));
@@ -346,21 +346,21 @@ function Board(props) {
         setNewMember(prev => ({...prev, [name]: value}));
     };
 
-    // CRUD операции
+    // CRUD-operationer
     const handleAddTask = async () => {
         try {
             if (!newTask.title || !newTask.title.trim()) {
-                toast.warning("Please enter a task title");
+                toast.warning("Ange en uppgiftstitel");
                 return;
             }
             if (!newTask.description || !newTask.description.trim()) {
-                toast.warning("Please enter a description");
+                toast.warning("Ange en beskrivning");
                 return;
             }
 
 
             if (newTask.id) {
-                // Режим редактирования
+                // Redigeringsläge
                 const db = getDatabase(database.app);
                 await update(ref(db, `tasks/${newTask.id}`), {
                     title: newTask.title,
@@ -370,25 +370,25 @@ function Board(props) {
                     owner: newTask.owner,
                     priority: newTask.priority
                 });
-                toast.success("Task updated successfully");
+                toast.success("Uppgift uppdaterad");
             } else {
-                // Режим создания
+                // Skapandeläge
                 await saveTask(newTask);
-                toast.success("Task created successfully");
+                toast.success("Uppgift skapad");
             }
 
             await loadTasksFromFirebase();
             handleHideTaskModal();
         } catch (error) {
-            console.error("Task save error:", error);
-            toast.error("Failed to save task.");
+            console.error("Fel vid sparande av uppgift:", error);
+            toast.error("Kunde inte spara uppgift.");
         }
     };
 
     const handleAddMember = async () => {
         try {
             if (!newMember.name.trim()) {
-                toast.warning("Please enter member name");
+                toast.warning("Ange medlemsnamn");
                 return;
             }
 
@@ -399,20 +399,20 @@ function Board(props) {
                 category: newMember.category,
             });
 
-            toast.success("Team member added successfully");
+            toast.success("Teammedlem tillagd");
             await loadMembersFromFirebase();
             handleHideMemberModal();
             setNewMember({ name: '', category: '' });
         } catch (error) {
-            console.error("Member save error:", error);
-            toast.error("Failed to add team member.");
+            console.error("Fel vid sparande av medlem:", error);
+            toast.error("Kunde inte lägga till teammedlem.");
         }
     };
 
     const handleAddOwner = async () => {
         try {
             if (!ownerUpdate) {
-                toast.warning("Please select an owner");
+                toast.warning("Välj en ägare");
                 return;
             }
 
@@ -422,16 +422,16 @@ function Board(props) {
                 status: 'in process'
             });
 
-            toast.success("Owner assigned successfully");
+            toast.success("Ägare tilldelad");
             await loadTasksFromFirebase();
             handleHideAddOwnerModal();
         } catch (error) {
-            console.error("Owner update error:", error);
-            toast.error("Failed to assign owner.");
+            console.error("Fel vid uppdatering av ägare:", error);
+            toast.error("Kunde inte tilldela ägare.");
         }
     };
 
-    // Сортировка
+    // Sortering
     function handleSortByTitle(sortDirection) {
         try {
             const hasActiveFilters = currentFilter.category !== 'all' ||
@@ -459,8 +459,8 @@ function Board(props) {
                 setFiltredTask(newColumns);
             }
         } catch (error) {
-            console.error("Sort error:", error);
-            toast.error("Failed to sort tasks.");
+            console.error("Sorteringsfel:", error);
+            toast.error("Kunde inte sortera uppgifter.");
         }
     }
 
@@ -492,8 +492,8 @@ function Board(props) {
                 setFiltredTask(newColumns);
             }
         } catch (error) {
-            console.error("Sort error:", error);
-            toast.error("Failed to sort tasks by due date.");
+            console.error("Sorteringsfel:", error);
+            toast.error("Kunde inte sortera uppgifter efter förfallodatum.");
         }
     }
 
@@ -525,8 +525,8 @@ function Board(props) {
                 setFiltredTask(newColumns);
             }
         } catch (error) {
-            console.error("Sort error:", error);
-            toast.error("Failed to sort tasks by creation date.");
+            console.error("Sorteringsfel:", error);
+            toast.error("Kunde inte sortera uppgifter efter skapelsedatum.");
         }
     }
 
@@ -537,7 +537,7 @@ function Board(props) {
             const snapshot = await get(taskRef);
 
             if (!snapshot.exists()) {
-                throw new Error("Task not found");
+                throw new Error("Uppgift hittades inte");
             }
 
             const taskData = snapshot.val();
@@ -555,14 +555,14 @@ function Board(props) {
 
             setShowTaskModal(true);
         } catch (error) {
-            console.error("Edit error:", error);
-            toast.error("Failed to load task for editing.");
+            console.error("Redigeringsfel:", error);
+            toast.error("Kunde inte ladda uppgift för redigering.");
         }
     }
 
     async function handleDelete(cardId) {
         try {
-            if (!window.confirm("Are you sure you want to delete this task?")) {
+            if (!window.confirm("Är du säker på att du vill ta bort denna uppgift?")) {
                 return;
             }
 
@@ -571,11 +571,11 @@ function Board(props) {
                 status: 'deleted'
             });
 
-            toast.success("Task deleted successfully");
+            toast.success("Uppgift borttagen");
             await loadTasksFromFirebase();
         } catch (error) {
-            console.error("Delete error:", error);
-            toast.error("Failed to delete task.");
+            console.error("Borttagningsfel:", error);
+            toast.error("Kunde inte ta bort uppgift.");
         }
     }
 
@@ -592,7 +592,7 @@ function Board(props) {
                 draggable
                 pauseOnHover
             />
-            {/* Модальные окна */}
+            {/* Modala fönster */}
             <Tasks
                 show={showTaskModal}
                 handleClose={handleHideTaskModal}
@@ -621,7 +621,7 @@ function Board(props) {
                 handleAddOwner={handleAddOwner}
             />
 
-            {/* Шапка доски */}
+            {/* Board header */}
             <BoardHeader
                 setShowTaskModal={handleShowTaskModal}
                 setShowMemberModal={handleShowMemberModal}
@@ -631,7 +631,7 @@ function Board(props) {
                 handleSortByExDate={handleSortByExDate}
             />
 
-            {/* Колонки с задачами */}
+            {/* Uppgiftskolumner */}
             <BoardColumns
                 handleDragOver={handleDragOver}
                 handleDrop={handleDrop}
@@ -642,21 +642,21 @@ function Board(props) {
                 columns={columns}
             />
 
-            {/* Боковая панель фильтров */}
+            {/* Filter sidopanel */}
             <Offcanvas show={showFilterCanvas} onHide={() => setShowFilterCanvas(false)} placement="end">
                 <Offcanvas.Header closeButton>
-                    <Offcanvas.Title>Filter Tasks</Offcanvas.Title>
+                    <Offcanvas.Title>Filtrera Uppgifter</Offcanvas.Title>
                 </Offcanvas.Header>
                 <Offcanvas.Body>
                     <Dropdown className="mx-2 my-3">
                         <Dropdown.Toggle variant="light" id="dropdown-filter-category">
-                            <i className="fas fa-filter"></i> Filter by Category
+                            <i className="fas fa-filter"></i> Filtrera efter Kategori
                             <span className="badge bg-info ms-2">
-                                {currentFilter.category || 'All'}
+                                {currentFilter.category || 'Alla'}
                             </span>
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
-                            <Dropdown.Item onClick={() => handleFilterByCategory('all')}>All</Dropdown.Item>
+                            <Dropdown.Item onClick={() => handleFilterByCategory('all')}>Alla</Dropdown.Item>
                             <Dropdown.Item onClick={() => handleFilterByCategory('ux')}>UX</Dropdown.Item>
                             <Dropdown.Item onClick={() => handleFilterByCategory('frontend')}>Frontend</Dropdown.Item>
                             <Dropdown.Item onClick={() => handleFilterByCategory('backend')}>Backend</Dropdown.Item>
@@ -665,13 +665,13 @@ function Board(props) {
 
                     <Dropdown className="mx-2 my-5">
                         <Dropdown.Toggle variant="light" id="dropdown-filter-owner">
-                            <i className="fas fa-user-tag"></i> Filter by Owner
+                            <i className="fas fa-user-tag"></i> Filtrera efter Ägare
                             <span className="badge bg-info ms-2">
-                                {currentFilter.owner || 'All'}
+                                {currentFilter.owner || 'Alla'}
                             </span>
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
-                            <Dropdown.Item onClick={() => handleFilterByOwner('all')}>All</Dropdown.Item>
+                            <Dropdown.Item onClick={() => handleFilterByOwner('all')}>Alla</Dropdown.Item>
                             {members.map(m => (
                                 <Dropdown.Item
                                     key={m.id}
@@ -685,16 +685,16 @@ function Board(props) {
 
                     <Dropdown className="mx-2 my-3">
                         <Dropdown.Toggle variant="light" id="dropdown-combined-filter">
-                            <i className="fas fa-filter"></i> Combined Filter
+                            <i className="fas fa-filter"></i> Kombinerat Filter
                             <span className="badge bg-info ms-2">
-                                <div>Category: {currentFilter.category || 'All'}</div>
-                                <div>Owner: {currentFilter.owner || 'All'}</div>
+                                <div>Kategori: {currentFilter.category || 'Alla'}</div>
+                                <div>Ägare: {currentFilter.owner || 'Alla'}</div>
                             </span>
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
-                            <Dropdown.Header>Category</Dropdown.Header>
+                            <Dropdown.Header>Kategori</Dropdown.Header>
                             <Dropdown.Item onClick={() => handleFilterByOwnerAndCategory('all', null)}>
-                                All Categories
+                                Alla Kategorier
                             </Dropdown.Item>
                             <Dropdown.Item onClick={() => handleFilterByOwnerAndCategory('ux', null)}>
                                 UX
@@ -708,9 +708,9 @@ function Board(props) {
 
                             <Dropdown.Divider/>
 
-                            <Dropdown.Header>Owner</Dropdown.Header>
+                            <Dropdown.Header>Ägare</Dropdown.Header>
                             <Dropdown.Item onClick={() => handleFilterByOwnerAndCategory(null, 'all')}>
-                                All Owners
+                                Alla Ägare
                             </Dropdown.Item>
                             {members.map(m => (
                                 <Dropdown.Item
